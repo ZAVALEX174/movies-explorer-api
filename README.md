@@ -4,7 +4,7 @@
 
 Информация о ресурсах
 
-Домен для backend: api.zuevdiplom.nomoredomains.xyz
+Домен для backend: https://api.zuevdiplom.nomoredomains.xyz
 
 Публичный  IPv4: 130.193.51.54
 
