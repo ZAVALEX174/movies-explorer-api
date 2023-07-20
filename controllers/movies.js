@@ -65,7 +65,7 @@ async function deleteMovie(req, res, next) {
     const movie = await Movie.findById(movieId).populate('owner');
 
     if (!movie) {
-      throw new NotFoundError('Фильма не найдена');
+      throw new NotFoundError('Фильм не найден');
     }
 
     const ownerId = movie.owner.id;
