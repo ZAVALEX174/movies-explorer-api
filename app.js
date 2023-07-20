@@ -23,7 +23,18 @@ const { DATABASE_URL } = require('./utils/secret');
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: ['http://localhost:3001', 'https://localhost:3001', 'http://localhost:3000', 'https://localhost:3000'], credentials: true, maxAge: 3600 }));
+app.use(cors({
+  origin: ['http://localhost:3001',
+    'https://localhost:3001',
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'https://api.zuevdiplom.nomoredomains.xyz',
+    'http://api.zuevdiplom.nomoredomains.xyz',
+    'https://zuevdiplom.nomoredomains.xyz',
+    'http://zuevdiplom.nomoredomains.xyz'],
+  credentials: true,
+  maxAge: 3600,
+}));
 
 app.use(helmet());
 
@@ -42,11 +53,11 @@ app.use(cookieParser());
 
 app.use(requestLogger); // подключаем логгер запросов
 
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use(limiter);
 
