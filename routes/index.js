@@ -5,6 +5,7 @@ const { NotFoundError } = require('../errors/NotFoundError');
 const userRoutes = require('./users');
 const movieRoutes = require('./movies');
 const { validateSingnUp, validateSingnIn } = require('../utils/validate');
+const { NOT_FOUND_URL } = require('../utils/errorMessage');
 
 router.post(
   '/signup',
@@ -25,7 +26,7 @@ router.use(auth);
 router.use('/users', userRoutes);
 router.use('/movies', movieRoutes);
 router.use('*', (req, res, next) => {
-  next(new NotFoundError('Неверный адрес запроса'));
+  next(new NotFoundError(NOT_FOUND_URL));
 });
 
 module.exports = router;

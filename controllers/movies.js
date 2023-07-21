@@ -2,6 +2,7 @@ const { Movie } = require('../models/movie');
 const { ValidationError } = require('../errors/ValidationError');
 const { ForbiddenError } = require('../errors/ForbiddenError');
 const { NotFoundError } = require('../errors/NotFoundError');
+const { VALIDATION_ERROR, NOT_FOUND_MOVIES, FORBIDDEN_DELETE_MOVIES } = require('../utils/errorMessage');
 
 async function getAllMovie(req, res, next) {
   try {
@@ -50,7 +51,7 @@ async function createMovie(req, res, next) {
     res.status(201).send(movie);
   } catch (err) {
     if (err.name === 'CastError' || err.name === 'ValidationError') {
-      next(new ValidationError('Неверные данные в запросе'));
+      next(new ValidationError(VALIDATION_ERROR));
       return;
     }
 
@@ -65,14 +66,14 @@ async function deleteMovie(req, res, next) {
     const movie = await Movie.findById(movieId).populate('owner');
 
     if (!movie) {
-      throw new NotFoundError('Фильм не найден');
+      throw new NotFoundError(NOT_FOUND_MOVIES);
     }
 
     const ownerId = movie.owner.id;
     const userId = req.user._id;
 
     if (ownerId !== userId) {
-      throw new ForbiddenError('Нельзя удалить чужой фильм');
+      throw new ForbiddenError(FORBIDDEN_DELETE_MOVIES);
     }
 
     await Movie.findByIdAndRemove(movieId);

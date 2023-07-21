@@ -12,6 +12,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
 const { handleError } = require('./middlewares/handleError');
 
+const { CRASH_TEST_ERROR } = require('./utils/errorMessage');
+
 const { PORT = 3000 } = process.env;
 
 const { DATABASE_URL } = require('./utils/secret');
@@ -52,7 +54,7 @@ app.use(requestLogger); // подключаем логгер запросов
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(CRASH_TEST_ERROR);
   }, 0);
 });
 

@@ -10,6 +10,9 @@ const { ConflictError } = require('../errors/ConflictError');
 const { ValidationError } = require('../errors/ValidationError');
 const { UnauthorizedError } = require('../errors/UnauthorizedError');
 const { NotFoundError } = require('../errors/NotFoundError');
+const {
+  USER_NOT_UNIQUE, NOT_FOUND_USER, UN_AUTH_ERROR, VALIDATION_ERROR,
+} = require('../utils/errorMessage');
 
 async function updateUser(req, res, next) {
   try {
@@ -22,13 +25,13 @@ async function updateUser(req, res, next) {
     );
 
     if (!user) {
-      throw new NotFoundError('Пользователь не найден');
+      throw new NotFoundError(NOT_FOUND_USER);
     }
 
     res.send(user);
   } catch (err) {
     if (err.code === 11000) {
-      next(new ConflictError('Пользователь с таким email уже существует'));
+      next(new ConflictError(USER_NOT_UNIQUE));
       return;
     }
 
@@ -54,11 +57,11 @@ async function createUser(req, res, next) {
     res.status(201).send(user);
   } catch (err) {
     if (err.name === 'CastError' || err.name === 'ValidationError') {
-      next(new ValidationError('Неверные данные в запросе'));
+      next(new ValidationError(VALIDATION_ERROR));
       return;
     }
     if (err.code === 11000) {
-      next(new ConflictError('Пользователь с таким email уже существует'));
+      next(new ConflictError(USER_NOT_UNIQUE));
       return;
     }
 
@@ -73,11 +76,11 @@ async function login(req, res, next) {
     // проверить существует ли пользователь с таким email
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      throw new UnauthorizedError('Неверные данные для входа'); // res.status(VALIDATION_ERROR).json({ message: 'Неверные данные' });
+      throw new UnauthorizedError(UN_AUTH_ERROR);
     } // проверить совпадает ли пароль
     const hasRightPassword = await bcrypt.compare(password, user.password);
     if (!hasRightPassword) {
-      throw new UnauthorizedError(' Неверные данные для входа');
+      throw new UnauthorizedError(UN_AUTH_ERROR);
       // res.status(VALIDATION_ERROR).json({ message: 'Неверные данные' });
     }
     const token = jwt.sign(
@@ -101,7 +104,7 @@ async function getCurrentUser(req, res, next) {
     const user = await User.findById(userId);
 
     if (!user) {
-      throw new NotFoundError('Пользователь не найден');
+      throw new NotFoundError(NOT_FOUND_USER);
     }
 
     res.send(user);
