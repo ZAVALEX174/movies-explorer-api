@@ -23,8 +23,8 @@ app.use(cors({
     'https://localhost:3001',
     'http://localhost:3000',
     'https://localhost:3000',
-    'https://api.zuevmesto.students.nomoredomains.xyz',
-    'http://api.zuevmesto.students.nomoredomains.xyz',
+    'https://api.zuevdiplom.nomoredomains.xyz',
+    'http://api.zuevdiplom.nomoredomains.xyz',
     'https://zuevdiplom.nomoredomains.xyz',
     'http://zuevdiplom.nomoredomains.xyz'],
   credentials: true,
@@ -33,7 +33,9 @@ app.use(cors({
 
 app.use(helmet());
 
-mongoose.connect(DATABASE_URL);
+mongoose.connect(DATABASE_URL, {
+  useNewUrlParser: true,
+});
 
 app.use(cookieParser());
 
