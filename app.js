@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -38,14 +37,14 @@ app.use(helmet());
 //   useNewUrlParser: true,
 // });
 mongoose
-  .connect(DATABASE_URL)
-  .then(() => {
-    console.log(`Connected to database on ${DATABASE_URL}`);
-  })
-  .catch((err) => {
-    console.log('Error on database connection');
-    console.error(err);
-  });
+  .connect(DATABASE_URL);
+// .then(() => {
+//   console.log(`Connected to database on ${DATABASE_URL}`);
+// })
+// .catch((err) => {
+//   console.log('Error on database connection');
+//   console.error(err);
+// })
 
 app.use(cookieParser());
 
@@ -68,5 +67,5 @@ app.use(errors()); // обработчик ошибок celebrate
 app.use(handleError);
 
 app.listen(PORT, () => {
-  console.log(`App started on port ${PORT}`);
+  // console.log(`App started on port ${PORT}`);
 });
