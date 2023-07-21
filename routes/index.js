@@ -20,8 +20,10 @@ router.post(
 
 router.post('/signout', logOut);
 
-router.use('/users', auth, userRoutes);
-router.use('/movies', auth, movieRoutes);
+router.use(auth);
+
+router.use('/users', userRoutes);
+router.use('/movies', movieRoutes);
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Неверный адрес запроса'));
 });
