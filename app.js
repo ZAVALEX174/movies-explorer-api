@@ -55,4 +55,4 @@ app.use(errors()); // обработчик ошибок celebrate
 
 app.use(handleError);
 
-app.listen(PORT);
+app.listen(PORT, () => { });
