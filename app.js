@@ -57,4 +57,7 @@ app.use(errors()); // обработчик ошибок celebrate
 
 app.use(handleError);
 
-app.listen(PORT, () => { });
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`App started on port ${PORT}`);
+});
