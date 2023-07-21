@@ -1,8 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable comma-dangle */
-/* eslint-disable semi */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable quotes */
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,7 +5,7 @@ const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const cors = require('cors');
-const { limiter } = require('./middlewares/rateLimiter')
+const { limiter } = require('./middlewares/rateLimiter');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -38,16 +33,7 @@ app.use(cors({
 
 app.use(helmet());
 
-mongoose
-  .connect(DATABASE_URL)
-  .then(() => {
-    console.log(`Connected to database on ${DATABASE_URL}`);
-  })
-  // eslint-disable-next-line no-unused-vars
-  .catch((err) => {
-    console.log('Error on database connection');
-    console.error(err);
-  });
+mongoose.connect(DATABASE_URL);
 
 app.use(cookieParser());
 
@@ -69,7 +55,4 @@ app.use(errors()); // обработчик ошибок celebrate
 
 app.use(handleError);
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App started on port ${PORT}`);
-});
+app.listen(PORT);
