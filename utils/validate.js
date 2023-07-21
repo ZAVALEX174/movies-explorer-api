@@ -21,7 +21,7 @@ const validateSingnIn = celebrate({
 
 const paramsValidationConfig = {
   params: Joi.object().keys({
-    movieId: Joi.string().custom(validateObjectId),
+    movieId: Joi.string().custom(validateObjectId).required(),
   }),
 };
 
