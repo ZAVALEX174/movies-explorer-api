@@ -8,9 +8,9 @@ async function getAllMovie(req, res, next) {
   try {
     const owner = req.user._id;
     const movies = await Movie.find({ owner });
-    // if (!movies || movies.length === 0) {
-    //   res.send({ message: 'Фильмы не найдены' });
-    // }
+    if (!movies || movies.length === 0) {
+       res.send({ message: 'Фильмы не найдены' });
+     }
     res.send(movies);
   } catch (err) {
     next(err);
